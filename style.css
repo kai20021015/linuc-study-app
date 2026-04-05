@@ -64,5 +64,27 @@ button {
     font-size: 0.8rem;
 }
 
+/* 全体のフォントサイズを少し大きく（16px以下だとスマホでズームされることがあります） */
+body {
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 10px;
+}
+
+/* ボタンを「指」で押しやすいサイズに（最低 44px 以上の高さが推奨されます） */
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    margin: 8px 0;
+    width: 100%; /* スマホでは横いっぱいにボタンがあると押しやすいです */
+    cursor: pointer;
+}
+
+/* 選択肢のコンテナ */
+#choices-container {
+    display: flex;
+    flex-direction: column; /* 選択肢を縦に並べる */
+}
+
 .status-dot.correct { background-color: #d4edda; border-color: #28a745; color: #155724; }
 .status-dot.incorrect { background-color: #f8d7da; border-color: #dc3545; color: #721c24; }
