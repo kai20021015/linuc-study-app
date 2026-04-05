@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>LinuC 201 演習アプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="progress-container">
+        <div class="progress-info">
+            <span id="progress-text">進捗率: 0% (0/0)</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div id="progress-bar-fill"></div>
+        </div>
+    </div>
+
+    <div id="quiz-navigation">
+        <p>問題リスト:</p>
+        <div id="quiz-status-list"></div>
+    </div>
+    <div class="filter-section">
+        <div class="filter-section">
+            <label for="category-select">学習する主題を選択:</label>
+            <select id="category-select">
+                <option value="all">すべての主題</option>
+            </select>
+            
+            <button id="review-unsolved-btn">不正解・未回答のみ解く</button>
+            <button id="shuffle-btn">問題をシャッフル</button>
+        </div>
+    </div>
+    <div id="app">
+        <h1>LinuC 201 模擬試験</h1>
+        <div id="quiz-container">
+            <h2 id="quiz-category"></h2>
+            <p id="quiz-question"></p>
+            <div id="choices-container"></div>
+            <div id="feedback" class="hidden"></div>
+            <div id="answer-details" class="hidden"></div>
+            <button id="next-btn">次の問題へ</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

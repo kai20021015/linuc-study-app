@@ -1,0 +1,68 @@
+#answer-details {
+    /* これを追加するだけ！ */
+    white-space: pre-wrap;
+    
+    /* 以下はお好みで読みやすくするための装飾 */
+    line-height: 1.6;        /* 行間を少し広くする */
+    background: #f9f9f9;    /* 背景を薄いグレーに */
+    padding: 15px;          /* 余白を作る */
+    border-radius: 5px;     /* 角を丸くする */
+}
+
+.filter-section {
+    background: #e9ecef;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+}
+
+#category-select {
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ついでにボタンも押しやすく */
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+/* 進捗バーの土台 */
+.progress-bar-bg {
+    width: 100%;
+    height: 12px;
+    background-color: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+/* 動くバーの部分 */
+#progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #28a745; /* 緑色 */
+    transition: width 0.5s ease-in-out;
+}
+
+/* 問題番号ドット */
+.status-dot {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.status-dot.correct { background-color: #d4edda; border-color: #28a745; color: #155724; }
+.status-dot.incorrect { background-color: #f8d7da; border-color: #dc3545; color: #721c24; }
