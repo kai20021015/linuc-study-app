@@ -1,14 +1,29 @@
-#answer-details {
-    /* これを追加するだけ！ */
-    white-space: pre-wrap;
-    
-    /* 以下はお好みで読みやすくするための装飾 */
-    line-height: 1.6;        /* 行間を少し広くする */
-    background: #f9f9f9;    /* 背景を薄いグレーに */
-    padding: 15px;          /* 余白を作る */
-    border-radius: 5px;     /* 角を丸くする */
+/* --- 全体レイアウト --- */
+body {
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f7f9;
 }
 
+#app {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+/* --- フィルター・操作セクション --- */
 .filter-section {
     background: #e9ecef;
     padding: 15px;
@@ -18,21 +33,15 @@
 }
 
 #category-select {
-    padding: 5px;
+    padding: 8px;
     font-size: 1rem;
     border-radius: 4px;
     width: 100%;
     max-width: 400px;
+    border: 1px solid #ccc;
 }
 
-/* ついでにボタンも押しやすく */
-button {
-    margin: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-/* 進捗バーの土台 */
+/* --- 進捗バー --- */
 .progress-bar-bg {
     width: 100%;
     height: 12px;
@@ -42,7 +51,6 @@ button {
     margin: 10px 0;
 }
 
-/* 動くバーの部分 */
 #progress-bar-fill {
     height: 100%;
     width: 0%;
@@ -50,7 +58,7 @@ button {
     transition: width 0.5s ease-in-out;
 }
 
-/* 問題番号ドット */
+/* --- 問題番号ドット --- */
 .status-dot {
     display: inline-block;
     width: 30px;
@@ -64,27 +72,119 @@ button {
     font-size: 0.8rem;
 }
 
-/* 全体のフォントサイズを少し大きく（16px以下だとスマホでズームされることがあります） */
-body {
-    font-size: 16px;
-    line-height: 1.6;
-    padding: 10px;
-}
-
-/* ボタンを「指」で押しやすいサイズに（最低 44px 以上の高さが推奨されます） */
-button {
-    padding: 12px 20px;
-    font-size: 1rem;
-    margin: 8px 0;
-    width: 100%; /* スマホでは横いっぱいにボタンがあると押しやすいです */
-    cursor: pointer;
-}
-
-/* 選択肢のコンテナ */
-#choices-container {
-    display: flex;
-    flex-direction: column; /* 選択肢を縦に並べる */
-}
-
 .status-dot.correct { background-color: #d4edda; border-color: #28a745; color: #155724; }
 .status-dot.incorrect { background-color: #f8d7da; border-color: #dc3545; color: #721c24; }
+
+/* --- クイズ表示エリア --- */
+#quiz-category {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+#quiz-question {
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* --- 回答フォーム（選択肢・記述） --- */
+.choice-label {
+    display: block;
+    margin: 10px 0;
+    padding: 12px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.choice-label:hover {
+    background: #e9ecef;
+}
+
+.choice-label input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* チェックボックスを少し大きく */
+}
+
+.answer-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    border: 2px solid #3498db;
+    border-radius: 6px;
+    box-sizing: border-box; /* パディングを含めた横幅に */
+}
+
+/* --- ボタン類 --- */
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #f0f0f0;
+}
+
+/* 解答するボタン（目立たせる） */
+#choices-container button {
+    display: block;
+    width: 100%;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    font-weight: bold;
+    margin-top: 15px;
+    padding: 15px;
+}
+
+#choices-container button:hover {
+    background-color: #2980b9;
+}
+
+/* --- 正誤判定と解説 --- */
+.hidden {
+    display: none;
+}
+
+#feedback {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 15px 0;
+    text-align: center;
+}
+
+#feedback.correct { color: #28a745; }
+#feedback.incorrect { color: #dc3545; }
+
+#answer-details {
+    white-space: pre-wrap; /* JSONの改行を反映 */
+    line-height: 1.6;
+    background: #fffbe6; /* 少し黄色っぽい背景で「解説」と分かりやすく */
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ffe58f;
+    margin-top: 15px;
+}
+
+#next-btn {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px;
+    border: none;
+}
+
+#next-btn:hover {
+    background-color: #1a252f;
+}
