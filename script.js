@@ -70,35 +70,62 @@ function resetDisplay() {
 function showQuiz(index) {
     resetDisplay();
     const quiz = displayedQuizzes[index];
-    if (!quiz) {
-        document.getElementById('quiz-question').textContent = isReviewMode ? "このカテゴリに復習が必要な問題はありません！" : "問題がありません。";
-        document.getElementById('choices-container').innerHTML = '';
-        document.getElementById('quiz-category').textContent = "-";
-        return;
-    }
+    if (!quiz) { /* エラー処理 */ return; }
 
     document.getElementById('quiz-category').textContent = quiz.category;
     document.getElementById('quiz-question').textContent = quiz.question;
     
     const choicesDiv = document.getElementById('choices-container');
     choicesDiv.innerHTML = ''; 
-    quiz.choices.forEach((choice, i) => {
-        const btn = document.createElement('button');
-        btn.textContent = `${i + 1}. ${choice}`;
-        btn.onclick = () => checkAnswer(i + 1, quiz);
-        choicesDiv.appendChild(btn);
-    });
+
+    // --- 変更点：入力形式の出し分け ---
+    if (!quiz.choices || quiz.choices.length === 0) {
+        // 記述式の場合
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = 'text-answer-input';
+        input.placeholder = "回答を入力...";
+        choicesDiv.appendChild(input);
+    } else {
+        // 選択肢（複数回答対応）の場合
+        quiz.choices.forEach((choice, i) => {
+            const label = document.createElement('label');
+            label.className = 'choice-label';
+            label.innerHTML = `<input type="checkbox" class="quiz-checkbox" value="${i+1}"> ${i+1}. ${choice}`;
+            choicesDiv.appendChild(label);
+        });
+    }
+
+    // --- 変更点：「解答する」ボタンを設置 ---
+    const submitBtn = document.createElement('button');
+    submitBtn.textContent = "解答する";
+    submitBtn.className = "submit-btn";
+    submitBtn.onclick = () => checkAnswer(quiz); 
+    choicesDiv.appendChild(submitBtn);
 }
 
 // --- 4. 正解判定・保存 ---
-function checkAnswer(selectedNum, quiz) {
-    const correctMatch = quiz.answer.match(/正解は、[「\(（](\d)/);
-    const correctNum = correctMatch ? parseInt(correctMatch[1]) : null;
-    const isCorrect = selectedNum === correctNum;
-    
+function checkAnswer(quiz) {
+    let isCorrect = false;
+
+    // --- 判定ロジック：記述式 ---
+    if (!quiz.choices || quiz.choices.length === 0) {
+        const userVal = document.getElementById('text-answer-input').value.trim().toLowerCase();
+        const target = Array.isArray(quiz.correctAnswer) ? quiz.correctAnswer[0] : quiz.correctAnswer;
+        isCorrect = userVal === target.toString().toLowerCase();
+
+    // --- 判定ロジック：選択肢（複数回答対応） ---
+    } else {
+        const checkedBoxes = Array.from(document.querySelectorAll('.quiz-checkbox:checked'));
+        const userIndices = checkedBoxes.map(cb => parseInt(cb.value)).sort((a,b) => a-b);
+        const correctIndices = [...quiz.correctIndices].sort((a,b) => a-b);
+
+        // 配列（リスト）同士を比較して完全一致なら正解
+        isCorrect = JSON.stringify(userIndices) === JSON.stringify(correctIndices);
+    }
+
+    // --- 保存と解説表示 ---
     saveRecord(quiz.url, isCorrect);
-    
-    // 解答直後に進捗だけ更新（リストからはまだ消さない方が学習しやすい）
     updateProgress();
 
     const feedback = document.getElementById('feedback');
@@ -107,7 +134,8 @@ function checkAnswer(selectedNum, quiz) {
     feedback.classList.remove('hidden');
     
     const details = document.getElementById('answer-details');
-    details.textContent = quiz.answer;
+    // 解説文を表示（改行コードを<br>に置換）
+    details.innerHTML = quiz.answer.replace(/\n/g, '<br>');
     details.classList.remove('hidden');
 }
 
